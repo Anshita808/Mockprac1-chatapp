@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>verrify</h1>
+</body>
+</html>
+<script>
+    // Assume you are using JavaScript and fetch API on the frontend
+
+// Make an HTTP GET request to the backend verify route
+fetch(`http://localhost:8800/verify?id=${userId}`)
+  .then(response => response.json())
+  .then(data => {
+    if (data.message) {
+      // User is already verified
+      console.log(data.message);
+      // Update your frontend UI accordingly
+    } else {
+      // User is not verified or some error occurred
+      console.log("User not verified");
+      // Update your frontend UI accordingly
+    }
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    // Handle the error
+  });
+
+</script>

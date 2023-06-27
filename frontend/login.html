@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    .login-box {
+      width: 300px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .login-box.active {
+      display: block;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-box {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-bottom: 1px solid #ccc;
+      outline: none;
+    }
+
+    label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 10px;
+      color: #777;
+      pointer-events: none;
+      transition: 0.2s;
+    }
+
+    input:focus~label,
+    input:valid~label {
+      top: -20px;
+      left: 0;
+      font-size: 12px;
+      color: #555;
+    }
+
+    button[type="submit"] {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #555;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    p {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    a {
+      color: #555;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-box">
+    <h2>Login</h2>
+    <form id="login-form">
+      <div class="user-box">
+        <input type="email" name="email" required>
+        <label>Email</label>
+      </div>
+      <div class="user-box">
+        <input type="password" name="password" required>
+        <label>Password</label>
+      </div>
+      <button type="submit">Login</button>
+      <p>Don't have an account? <a href="./signup.html">Register here</a></p>
+    </form>
+  </div>
+
+  <script>
+    const form = document.querySelector("#login-form");
+    if (form) {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const payload = {
+          Email: form.elements.email.value,
+          Password: form.elements.password.value,
+        };
+
+        try {
+          const response = await fetch("http://localhost:8800/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) {
+            throw new Error("Wrong Credentials");
+          }
+
+          const data = await response.json();
+          localStorage.setItem("token", data.token);
+          console.log(data);
+          alert(data.msg);
+          window.location.href = "index.html";
+        } catch (error) {
+          console.error(error);
+          alert("Login failed. Please check your credentials and try again.");
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>

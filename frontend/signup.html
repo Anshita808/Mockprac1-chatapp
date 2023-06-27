@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .login-box {
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  /* Hide all login-box containers by default */
+}
+
+.login-box.active {
+  display: block; /* Show the active login-box container */
+}
+
+h2 {
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-box {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  outline: none;
+}
+
+label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  color: #777;
+  pointer-events: none;
+  transition: 0.2s;
+}
+
+input:focus ~ label,
+input:valid ~ label {
+  top: -20px;
+  left: 0;
+  font-size: 12px;
+  color: #555;
+}
+
+button[type="submit"] {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #555;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+p {
+  text-align: center;
+  margin-top: 10px;
+}
+
+a {
+  color: #555;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2 >Signup</h2>
+        <form id="signup-form">
+          <div class="user-box">
+            <input type="text" name="username" required>
+            <label>Username</label>
+          </div>
+          <div class="user-box">
+            <input type="email" name="email" required>
+            <label>Email</label>
+          </div>
+          <div class="user-box">
+            <input type="password" name="password" required>
+            <label>Password</label>
+          </div>
+          <button type="submit">Signup</button>
+          <p>login the account <a href="./login.html">
+            here
+          </a></p>
+        </form>
+      </div>
+</body>
+</html>
+
+<script>
+  const form=document.querySelector("#signup-form")
+if(form){
+  form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        Username: form.elements.username.value,
+        Email: form.elements.email.value,
+        Password: form.elements.password.value,
+      };
+
+      try {
+        const response= await fetch("http://localhost:8800/register",{
+          method:"POST",
+          headers:{
+            "content-type":"application/json",
+
+          },
+          body:JSON.stringify(payload),
+        });
+        const data = await response.json();
+        console.log(data);
+        alert(data.msg);
+        window.location.href = "login.html";
+      } catch (error) {
+        console.error(error);
+        alert("Registration failed. Please try again later.");
+      }
+    });
+
+}
+</script>
