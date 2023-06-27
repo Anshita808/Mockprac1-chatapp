@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 // const path=require("path")
 const nodemailer = require("nodemailer");
 require("dotenv").config()
-// const userRouter = express.Router();
+
 // app.use(express.static(path.join(__dirname, "public")));
 
 
@@ -33,7 +33,7 @@ userRouter.post("/register", async (req, res) => {
     } else {
       res.status(401).json({ msg: "Registration failed" });
     }
-    // res.sendFile(path.join(__dirname, "../public/verify.html"));
+    
 
   } catch (error) {
     res.status(400).json({ msg: "Something went wrong" });
@@ -128,7 +128,7 @@ userRouter.get("/verify", async (req, res) => {
       return res.status(200).json({ message: "Email verified" });
     }
 
-    // res.sendFile(path.join(__dirname, "../public/verify.html"));
+    res.sendFile(path.join(__dirname, "../public/verify.html"));
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
